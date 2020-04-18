@@ -6,7 +6,7 @@
 
 #define CARD_FILENAME_MAX 32
 #define CARD_ICON_MAX 8
-#define SECTOR_SIZE 32768
+#define SECTOR_SIZE INT32_MAX
 
 enum CardError {
     Ready = 0,

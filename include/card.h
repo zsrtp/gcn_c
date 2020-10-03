@@ -27,6 +27,8 @@ enum CardError {
     FatalError = -128
 };
 
+typedef void (*CARDCallback)(int chan, int result);
+
 typedef struct CardInfo {
     int32_t channel;
     int32_t file_number;
@@ -57,7 +59,9 @@ typedef struct CARDStat {
     uint32_t offsetData;
 } CARDStat;
 
+#ifdef __cplusplus
 extern "C" {
+#endif // __cplusplus
 int32_t CARDOpen(int32_t channel, char* fileName, CardInfo* fileInfo);
 int32_t CARDRead(CardInfo* fileInfo, void* buf, int32_t length, int32_t offset);
 int32_t CARDClose(CardInfo* fileInfo);
@@ -65,17 +69,18 @@ int32_t CARDCreate(int32_t channel, char* fileName, uint32_t size, CardInfo* fil
 int32_t CARDProbeEx(int32_t channel, int32_t* memSize, int32_t* sectorSize);
 int32_t CARDGetStatus(int32_t channel, int32_t file_number, CARDStat* stat);
 int32_t CARDWrite(CardInfo* fileInfo, void* buf, int32_t length, int32_t offset);
+int32_t CARDDelete(int chan,char *fileName);
+int32_t CARDDeleteAsync(int chan,char *fileName,CARDCallback callback);
+#ifdef __cplusplus
 }
+#endif // __cplusplus
 
-namespace MemCard {
-    class Card {
-       public:
-        CardInfo card_info;
-        int32_t sector_size;
-        const char* file_name;
-        int32_t card_result;
-        char file_name_buffer[CARD_FILENAME_MAX * 2];
-    };
-}  // namespace MemCard
+typedef struct Card {
+    CardInfo card_info;
+    int32_t sector_size;
+    const char* file_name;
+    int32_t card_result;
+    char file_name_buffer[CARD_FILENAME_MAX * 2];
+} Card;
 
 #endif  // __CARD_H__

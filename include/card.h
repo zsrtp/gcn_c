@@ -2,7 +2,7 @@
 #define __CARD_H__
 
 #include <stdint.h>
-#include <stdio.h>
+
 
 #define CARD_FILENAME_MAX 32
 #define CARD_ICON_MAX 8

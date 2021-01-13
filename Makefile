@@ -22,12 +22,14 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
+REGION      :=  "NTSCU"
+PLATFORM    :=  "GCN"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION)
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------

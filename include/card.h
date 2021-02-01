@@ -62,7 +62,12 @@ typedef struct CARDStat {
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
+#ifdef WII_PLATFORM
+int32_t my_CARDOpen(int32_t channel, char* fileName, CardInfo* fileInfo);
+#define CARDOpen my_CARDOpen
+#else
 int32_t CARDOpen(int32_t channel, char* fileName, CardInfo* fileInfo);
+#endif
 int32_t CARDRead(CardInfo* fileInfo, void* buf, int32_t length, int32_t offset);
 int32_t CARDClose(CardInfo* fileInfo);
 int32_t CARDCreate(int32_t channel, char* fileName, uint32_t size, CardInfo* fileInfo);

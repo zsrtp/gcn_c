@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-// CARD return values; not all used in main code
 #define CARD_SLOT_A             0    // Memory card slot A
 #define CARD_SLOT_B             1    // Memory card slot B
 

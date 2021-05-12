@@ -1,30 +1,18 @@
 #include "card.h"
+#include "card_internal.h"
 #include <stddef.h>
 
-// __CARDBlock variable used in main code
-// 0x8044cbc0 in US; Specifically have to use this one and not make a new one
-typedef struct CARDBlock {
-    uint8_t unk[0x110];
-} CARDBlock;
-//static_assert(sizeof(CARDBlock) == 0x110);
-
-extern CARDBlock __CARDBlock[2]; // One for each memory card slot
-
-// Vanilla functions used in main code
-void __CARDDefaultApiCallback(int32_t chn, int32_t result);
-void __CARDSyncCallback(int32_t chn, int32_t result);
-int32_t __CARDGetControlBlock(int32_t chn, void** card);
-int32_t __CARDPutControlBlock(void* card, int32_t result);
-int32_t __CARDSync(int32_t chn);
-int32_t __CARDUpdateFatBlock(int32_t chn, void* fatBlock, CARDCallback callback);
-void* __CARDGetDirBlock(void* card);
-int32_t __CARDUpdateDir(int32_t chn, CARDCallback callback);
+// We declare those instead of using the standard headers to let
+// the linker link them against the ones already in the game's code.
 int32_t memcmp(const void* str1, const void* str2, size_t n);
 int32_t strcmp(const char* str1, const char* str2);
 void* memset(void* dst, int val, size_t n);
 
-// Main code
-int32_t card_free_block(int32_t chn, uint16_t block, CARDCallback callback)
+// +=-=-=-=-=-=-=-=-=-=-=+
+// | Deletion functions  |
+// +=-=-=-=-=-=-=-=-=-=-=+
+
+int32_t __CARDFreeBlock(int32_t chn, uint16_t block, CARDCallback callback)
 {
     uint32_t card = (uint32_t)(&__CARDBlock[chn]);
     if (*(int32_t*)card == 0)
@@ -50,7 +38,7 @@ int32_t card_free_block(int32_t chn, uint16_t block, CARDCallback callback)
     return __CARDUpdateFatBlock(chn, fatBlock, callback);
 }
 
-void delete_callback(int32_t chn, int32_t result) {
+void DeleteCallback(int32_t chn, int32_t result) {
     uint32_t card = (uint32_t)(&__CARDBlock[chn]);
     CARDCallback* cardApiCbAddress = (CARDCallback*)(card + 0xD0);
     CARDCallback cb = *cardApiCbAddress;
@@ -61,7 +49,7 @@ void delete_callback(int32_t chn, int32_t result) {
     {
         uint16_t* currFileBlockAddr = (uint16_t*)(card + 0xBE);
         
-        ret = card_free_block(chn, *currFileBlockAddr, cb);
+        ret = __CARDFreeBlock(chn, *currFileBlockAddr, cb);
         if (ret >= Ready)
         {
             return;
@@ -76,7 +64,7 @@ void delete_callback(int32_t chn, int32_t result) {
     }
 }
 
-int32_t card_get_file_no(void* card, const char* fileName, int32_t* fileNo)
+int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo)
 {
     int32_t cardIsAttached = *(int32_t*)((uint32_t)card);
     if (cardIsAttached == 0)
@@ -130,7 +118,7 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
     }
     
     int32_t fileNo;
-    ret = card_get_file_no((void*)card, fileName, &fileNo);
+    ret = __CARDGetFileNo((void*)card, fileName, &fileNo);
     if(ret < Ready)
     {
         __CARDPutControlBlock((void*)card, ret);
@@ -155,7 +143,7 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
     CARDCallback* cardApiCbAddress = (CARDCallback*)(card + 0xD0);
     *cardApiCbAddress = cb;
     
-    ret = __CARDUpdateDir(chn, delete_callback);
+    ret = __CARDUpdateDir(chn, DeleteCallback);
     if (ret >= Ready)
     {
         return ret;
@@ -174,3 +162,7 @@ int32_t CARDDelete(int32_t chn, const char* fileName)
     }
     return ret;
 }
+
+// +=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+
+// | Other functions go here...  |
+// +=-=-=-=-=-=-=-=-=-=-=-=-=-=-=+

@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+// CARD return values; not all used in main code
+#define CARD_SLOT_A             0    // Memory card slot A
+#define CARD_SLOT_B             1    // Memory card slot B
 
 #define CARD_FILENAME_MAX 32
 #define CARD_ICON_MAX 8
@@ -27,7 +30,7 @@ enum CardError {
     FatalError = -128
 };
 
-typedef void (*CARDCallback)(int chan, int result);
+typedef void (*CARDCallback)(int32_t chn, int32_t result);
 
 typedef struct CardInfo {
     int32_t channel;
@@ -74,8 +77,8 @@ int32_t CARDCreate(int32_t channel, char* fileName, uint32_t size, CardInfo* fil
 int32_t CARDProbeEx(int32_t channel, int32_t* memSize, int32_t* sectorSize);
 int32_t CARDGetStatus(int32_t channel, int32_t file_number, CARDStat* stat);
 int32_t CARDWrite(CardInfo* fileInfo, void* buf, int32_t length, int32_t offset);
-int32_t CARDDelete(int chan,char *fileName);
-int32_t CARDDeleteAsync(int chan,char *fileName,CARDCallback callback);
+int32_t CARDDelete(int32_t chn, const char* fileName);
+int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

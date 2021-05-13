@@ -12,21 +12,18 @@ void* memset(void* dst, int val, size_t n);
 // | Deletion functions  |
 // +=-=-=-=-=-=-=-=-=-=-=+
 
-int32_t __CARDFreeBlock(int32_t chn, uint16_t block, CARDCallback callback)
-{
+int32_t __CARDFreeBlock(int32_t chn, uint16_t block, CARDCallback callback) {
     uint32_t card = (uint32_t)(&__CARDBlock[chn]);
-    if (*(int32_t*)card == 0)
-    {
+    if (*(int32_t*)card == 0) {
         return NoCard;
     }
     
+    uint16_t cardVar = *(uint16_t*)(card + 0x10); // Maximum number of blocks?
     uint16_t* fatBlock = *(uint16_t**)(card + 0x88);
     
-    while (block != 0xFFFF)
-    {
-        uint32_t tempBlock = (uint32_t)(block);
-        if ((tempBlock < 5) || (*(uint16_t*)(card + 0x10) <= tempBlock))
-        {
+    while (block != 0xFFFF) {
+        uint32_t tempBlock = (uint32_t)block;
+        if ((tempBlock < 5) || (tempBlock >= cardVar)) {
             return Broken;
         }
         
@@ -45,48 +42,44 @@ void DeleteCallback(int32_t chn, int32_t result) {
     *cardApiCbAddress = (CARDCallback)NULL;
     
     int32_t ret = result;
-    if (ret >= Ready)
-    {
+    if (ret >= Ready) {
         uint16_t* currFileBlockAddr = (uint16_t*)(card + 0xBE);
         
         ret = __CARDFreeBlock(chn, *currFileBlockAddr, cb);
-        if (ret >= Ready)
-        {
+        if (ret >= Ready) {
             return;
         }
     }
     
     __CARDPutControlBlock((void*)card, ret);
     
-    if (cb)
-    {
+    if (cb) {
         cb(chn, ret);
     }
 }
 
-int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo)
-{
+int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
     int32_t cardIsAttached = *(int32_t*)((uint32_t)card);
-    if (cardIsAttached == 0)
-    {
+    if (cardIsAttached == 0) {
         return NoCard;
     }
     
-    uint32_t dirBlock = (uint32_t)(__CARDGetDirBlock(card));
     uint8_t* cardDiskGameCode = *(uint8_t**)(((uint32_t)card) + 0x10C);
+    if (!cardDiskGameCode) {
+        return FatalError;
+    }
+    
+    uint32_t dirBlock = (uint32_t)(__CARDGetDirBlock(card));
     
     int32_t i;
-    for (i = 0; i < 127; i++)
-    {
+    for (i = 0; i < 127; i++) {
         uint8_t* currentDirBlock = (uint8_t*)(dirBlock + (i * 0x40));
         uint8_t* gameCode = &currentDirBlock[0];
         
-        if (gameCode[0] != 0xFF)
-        {
+        if (gameCode[0] != 0xFF) {
             const char* currentFileName = (const char*)(&currentDirBlock[0x8]);
-            if (strcmp(fileName, currentFileName) == 0)
-            {
-                if ((cardDiskGameCode && (cardDiskGameCode[0] != 0xFF) && 
+            if (strcmp(fileName, currentFileName) == 0) {
+                if (((cardDiskGameCode[0] != 0xFF) && 
                    (memcmp(&gameCode[0], &cardDiskGameCode[0], 4) != 0)) || 
                    ((cardDiskGameCode[0x4] != 0xFF) && 
                    (memcmp(&gameCode[0x4], &cardDiskGameCode[0x4], 2) != 0)))
@@ -100,8 +93,7 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo)
         }
     }
     
-    if (i >= 127)
-    {
+    if (i >= 127) {
         return NoFile;
     }
     
@@ -112,15 +104,13 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
 {
     uint32_t card;
     int32_t ret = __CARDGetControlBlock(chn, (void**)(&card));
-    if (ret < Ready)
-    {
+    if (ret < Ready) {
         return ret;
     }
     
     int32_t fileNo;
     ret = __CARDGetFileNo((void*)card, fileName, &fileNo);
-    if(ret < Ready)
-    {
+    if (ret < Ready) {
         __CARDPutControlBlock((void*)card, ret);
         return ret;
     }
@@ -135,8 +125,7 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
     memset((void*)entry, -1, 0x40);
     
     CARDCallback cb = callback;
-    if (!cb)
-    {
+    if (!cb) {
         cb = __CARDDefaultApiCallback;
     }
     
@@ -144,8 +133,7 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
     *cardApiCbAddress = cb;
     
     ret = __CARDUpdateDir(chn, DeleteCallback);
-    if (ret >= Ready)
-    {
+    if (ret >= Ready) {
         return ret;
     }
 
@@ -156,8 +144,7 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
 int32_t CARDDelete(int32_t chn, const char* fileName)
 {
     int32_t ret = CARDDeleteAsync(chn, fileName, __CARDSyncCallback);
-    if (ret >= Ready)
-    {
+    if (ret >= Ready) {
         ret = __CARDSync(chn);
     }
     return ret;

@@ -72,21 +72,13 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
     uint32_t dirBlock = (uint32_t)(__CARDGetDirBlock(card));
     
     int32_t i;
-    for (i = 0; i < 127; i++) {
+    for (i = 0; i < 127; i++)
+    {
         uint8_t* currentDirBlock = (uint8_t*)(dirBlock + (i * 0x40));
-        uint8_t* gameCode = &currentDirBlock[0];
+        const char* currentFileName = (const char*)(&currentDirBlock[0x8]);
         
-        if (gameCode[0] != 0xFF) {
-            const char* currentFileName = (const char*)(&currentDirBlock[0x8]);
-            if (strcmp(fileName, currentFileName) == 0) {
-                if (((cardDiskGameCode[0] != 0xFF) && 
-                   (memcmp(&gameCode[0], &cardDiskGameCode[0], 4) != 0)) || 
-                   ((cardDiskGameCode[0x4] != 0xFF) && 
-                   (memcmp(&gameCode[0x4], &cardDiskGameCode[0x4], 2) != 0)))
-                {
-                    continue;
-                }
-
+        if (strncmp(fileName, currentFileName, 32) == 0) {
+            if (__CARDAccess(card, currentDirBlock) >= CARD_RESULT_READY) {
                 *fileNo = i;
                 break;
             }

@@ -22,5 +22,6 @@ int32_t __CARDSync(int32_t chn);
 int32_t __CARDUpdateFatBlock(int32_t chn, void* fatBlock, CARDCallback callback);
 void* __CARDGetDirBlock(void* card);
 int32_t __CARDUpdateDir(int32_t chn, CARDCallback callback);
+int32_t __CARDAccess(void* card, void* dirBlock);
 
 #endif // __CARD_INTERNAL_H__

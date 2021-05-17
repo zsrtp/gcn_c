@@ -6,6 +6,7 @@
 // the linker link them against the ones already in the game's code.
 int32_t memcmp(const void* str1, const void* str2, size_t n);
 int32_t strcmp(const char* str1, const char* str2);
+int32_t strncmp(const char* str1, const char* str2, size_t n);
 void* memset(void* dst, int val, size_t n);
 
 // +=-=-=-=-=-=-=-=-=-=-=+
@@ -64,11 +65,6 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
         return NoCard;
     }
     
-    uint8_t* cardDiskGameCode = *(uint8_t**)(((uint32_t)card) + 0x10C);
-    if (!cardDiskGameCode) {
-        return FatalError;
-    }
-    
     uint32_t dirBlock = (uint32_t)(__CARDGetDirBlock(card));
     
     int32_t i;
@@ -78,7 +74,7 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
         const char* currentFileName = (const char*)(&currentDirBlock[0x8]);
         
         if (strncmp(fileName, currentFileName, 32) == 0) {
-            if (__CARDAccess(card, currentDirBlock) >= CARD_RESULT_READY) {
+            if (__CARDAccess(card, currentDirBlock) >= Ready) {
                 *fileNo = i;
                 break;
             }

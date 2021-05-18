@@ -4,8 +4,6 @@
 
 // We declare those instead of using the standard headers to let
 // the linker link them against the ones already in the game's code.
-int32_t memcmp(const void* str1, const void* str2, size_t n);
-int32_t strcmp(const char* str1, const char* str2);
 int32_t strncmp(const char* str1, const char* str2, size_t n);
 void* memset(void* dst, int val, size_t n);
 

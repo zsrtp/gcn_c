@@ -4,7 +4,6 @@
 
 // We declare those instead of using the standard headers to let
 // the linker link them against the ones already in the game's code.
-int32_t strncmp(const char* str1, const char* str2, size_t n);
 void* memset(void* dst, int val, size_t n);
 
 // +=-=-=-=-=-=-=-=-=-=-=+
@@ -69,9 +68,7 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
     for (i = 0; i < 127; i++)
     {
         uint8_t* currentDirBlock = (uint8_t*)(dirBlock + (i * 0x40));
-        const char* currentFileName = (const char*)(&currentDirBlock[0x8]);
-        
-        if (strncmp(fileName, currentFileName, 32) == 0) {
+        if (__CARDCompareFileName(currentDirBlock, fileName)) {
             if (__CARDAccess(card, currentDirBlock) >= Ready) {
                 *fileNo = i;
                 break;

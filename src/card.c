@@ -68,12 +68,17 @@ int32_t __CARDGetFileNo(void* card, const char* fileName, int32_t* fileNo) {
     for (i = 0; i < 127; i++)
     {
         uint8_t* currentDirBlock = (uint8_t*)(dirBlock + (i * 0x40));
-        if (__CARDCompareFileName(currentDirBlock, fileName)) {
-            if (__CARDAccess(card, currentDirBlock) >= Ready) {
-                *fileNo = i;
-                break;
-            }
+        
+        if (!__CARDCompareFileName(currentDirBlock, fileName)) {
+            continue;
         }
+        
+        if (__CARDAccess(card, currentDirBlock) < Ready) {
+            continue;
+        }
+        
+        *fileNo = i;
+        break;
     }
     
     if (i >= 127) {

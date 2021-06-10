@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#define CARD_SLOT_A             0    // Memory card slot A
-#define CARD_SLOT_B             1    // Memory card slot B
+#define CARD_SLOT_A 0 // Memory card slot A
+#define CARD_SLOT_B 1 // Memory card slot B
 
 #define CARD_FILENAME_MAX 32
 #define CARD_ICON_MAX 8

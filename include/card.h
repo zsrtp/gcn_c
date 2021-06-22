@@ -10,25 +10,6 @@
 #define CARD_ICON_MAX 8
 #define SECTOR_SIZE INT32_MAX
 
-enum CardError {
-    Ready = 0,
-    Busy = -1,
-    WrongDevice = -2,
-    NoCard = -3,
-    NoFile = -4,
-    IoError = -5,
-    Broken = -6,
-    Exist = -7,
-    NoEnt = -8,
-    InsSpace = -9,
-    NoPerm = -10,
-    Limit = -11,
-    NameTooLong = -12,
-    Encoding = -13,
-    Canceled = -14,
-    FatalError = -128
-};
-
 typedef void (*CARDCallback)(int32_t chn, int32_t result);
 
 typedef struct CardInfo {
@@ -81,13 +62,5 @@ int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback
 #ifdef __cplusplus
 }
 #endif // __cplusplus
-
-typedef struct Card {
-    CardInfo card_info;
-    int32_t sector_size;
-    const char* file_name;
-    int32_t card_result;
-    char file_name_buffer[CARD_FILENAME_MAX * 2];
-} Card;
 
 #endif  // __CARD_H__

@@ -1,5 +1,6 @@
 #include "card.h"
 #include "card_internal.h"
+#include "storage.h"
 #include <stddef.h>
 
 // We declare those instead of using the standard headers to let

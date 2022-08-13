@@ -28,6 +28,9 @@
 #define DVD_ERROR_CANCELED              -3
 #define DVD_ERROR_COVER_CLOSED          -4
 
+#define DVD_READ_SIZE 32
+#define DVD_OFFSET_SIZE 4
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -36,18 +39,6 @@ extern "C" {
  * @brief Forward typedef for struct _DVDCommandBlock
  */
 typedef struct _DVDCommandBlock DVDCommandBlock;
-
-/*!
- * \typedef struct _dvdcmdblk dvdcmdblk
- *
- *        This structure is used internally to control the requested operation.
- */
-struct _DVDCommandBlock {
-	uint8_t unk1[12];
-	int32_t state;
-	uint8_t unk2[36];
-};
-
 typedef struct _DVDFileInfo DVDFileInfo;
 
 /**
@@ -56,7 +47,39 @@ typedef struct _DVDFileInfo DVDFileInfo;
  * @param[in] result error code of last operation
  * @param[in] info pointer to user's file info strucutre
  */
-typedef void (*DVDCallback)(uint32_t result, DVDFileInfo *info);
+typedef void ( *DVDCallback )( int32_t result, DVDFileInfo* info );
+typedef void ( *DVDCBCallback )( int32_t result, DVDCommandBlock* block );
+
+struct DVDDiskID
+{
+    char game_name[4];
+    char company[2];
+    uint8_t disk_number;
+    uint8_t game_version;
+    uint8_t is_streaming;
+    uint8_t streaming_buffer_size;
+    uint8_t padding[22];
+} __attribute__( ( __packed__ ) );
+
+/*!
+ * \typedef struct _dvdcmdblk dvdcmdblk
+ *
+ *        This structure is used internally to control the requested operation.
+ */
+struct _DVDCommandBlock {
+    DVDCommandBlock* next;
+    DVDCommandBlock* prev;
+    uint32_t command;
+    int32_t state;
+    uint32_t offset;
+    uint32_t length;
+    void* buffer;
+    uint32_t current_transfer_size;
+    uint32_t transferred_size;
+    DVDDiskID* disk_id;
+    DVDCBCallback callback;
+    void* user_data;
+} __attribute__( ( __packed__ ) );
 
 struct _DVDFileInfo {
     DVDCommandBlock blk;

@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#define CARD_SLOT_A 0 // Memory card slot A
-#define CARD_SLOT_B 1 // Memory card slot B
+#define CARD_SLOT_A 0  // Memory card slot A
+#define CARD_SLOT_B 1  // Memory card slot B
 
 #define CARD_FILENAME_MAX 32
 #define CARD_ICON_MAX 8
@@ -44,7 +44,7 @@ typedef struct CARDStat {
 
 #ifdef __cplusplus
 extern "C" {
-#endif // __cplusplus
+#endif  // __cplusplus
 #ifdef WII_PLATFORM
 int32_t my_CARDOpen(int32_t channel, char* fileName, CardInfo* fileInfo);
 #define CARDOpen my_CARDOpen
@@ -61,6 +61,6 @@ int32_t CARDDelete(int32_t chn, const char* fileName);
 int32_t CARDDeleteAsync(int32_t chn, const char* fileName, CARDCallback callback);
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif  // __cplusplus
 
 #endif  // __CARD_H__

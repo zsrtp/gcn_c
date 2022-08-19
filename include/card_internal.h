@@ -12,7 +12,7 @@ typedef struct CARDBlock {
 } CARDBlock;
 
 // Specifically have to use this one and not make a new one
-extern CARDBlock __CARDBlock[2]; // One for each memory card slot
+extern CARDBlock __CARDBlock[2];  // One for each memory card slot
 
 // Vanilla functions used in main code
 void __CARDDefaultApiCallback(int32_t chn, int32_t result);
@@ -26,4 +26,4 @@ int32_t __CARDUpdateDir(int32_t chn, CARDCallback callback);
 bool __CARDCompareFileName(void* dirBlock, const char* fileName);
 int32_t __CARDAccess(void* card, void* dirBlock);
 
-#endif // __CARD_INTERNAL_H__
+#endif  // __CARD_INTERNAL_H__

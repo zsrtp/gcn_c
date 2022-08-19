@@ -10,7 +10,7 @@
 #define OPEN_MODE_READ
 #define OPEN_MODE_WRITE
 #define OPEN_MODE_RW
-#else   // WII_PLATFORM
+#else  // WII_PLATFORM
 #include "nand.h"
 #define STORAGE_FILENAME_MAX NAND_FILENAME_MAX
 #define FileInfo NANDInfo
@@ -47,32 +47,39 @@ typedef struct Storage {
     uint32_t result_size;
 } Storage;
 
-
 #ifndef WII_PLATFORM
 #define StorageCreate(ch, fileName, size, fileBuffer) CARDCreate(ch, fileName, size, fileBuffer)
 #define StorageDelete(ch, fileName) CARDDelete(ch, fileName)
 #define StorageOpen(ch, fileName, fileInfo, mode) CARDOpen(ch, fileName, fileInfo)
 #define StorageClose(fileInfo) CARDClose(fileInfo)
-#define StorageRead(storage, data, length, offset) ({(storage).result = CARDRead(&(storage).info, data, length, offset);})
-#define StorageWrite(storage, data, length, offset) ({(storage).result = CARDWrite(&(storage).info, data, length, offset);})
-#else   // WII_PLATFORM
-#define StorageCreate(ch, fileName, size, fileBuffer) ({(void)size; (void)fileBuffer; NANDCreate(fileName, 0x34, 0);})
+#define StorageRead(storage, data, length, offset)                                                 \
+    ({ (storage).result = CARDRead(&(storage).info, data, length, offset); })
+#define StorageWrite(storage, data, length, offset)                                                \
+    ({ (storage).result = CARDWrite(&(storage).info, data, length, offset); })
+#else  // WII_PLATFORM
+#define StorageCreate(ch, fileName, size, fileBuffer)                                              \
+    ({                                                                                             \
+        (void)size;                                                                                \
+        (void)fileBuffer;                                                                          \
+        NANDCreate(fileName, 0x34, 0);                                                             \
+    })
 #define StorageDelete(ch, fileName) NANDDelete(fileName)
 #define StorageOpen(ch, fileName, fileInfo, mode) NANDOpen(fileName, fileInfo, mode)
 #define StorageClose(fileInfo) NANDClose(fileInfo)
-#define StorageRead(storage, data, length, offset) ({ \
-    (storage).result = NANDSeek(&(storage).info, offset, 0); \
-    if ((storage).result == Ready) { \
-        (storage).result_size = NANDRead(&(storage).info, data, length); \
-    } \
-})
-#define StorageWrite(storage, data, length, offset) ({ \
-    (storage).result = NANDSeek(&(storage).info, offset, 0); \
-    if ((storage).result == Ready) { \
-        (storage).result_size = NANDWrite(&(storage).info, data, length); \
-    } \
-})
+#define StorageRead(storage, data, length, offset)                                                 \
+    ({                                                                                             \
+        (storage).result = NANDSeek(&(storage).info, offset, 0);                                   \
+        if ((storage).result == Ready) {                                                           \
+            (storage).result_size = NANDRead(&(storage).info, data, length);                       \
+        }                                                                                          \
+    })
+#define StorageWrite(storage, data, length, offset)                                                \
+    ({                                                                                             \
+        (storage).result = NANDSeek(&(storage).info, offset, 0);                                   \
+        if ((storage).result == Ready) {                                                           \
+            (storage).result_size = NANDWrite(&(storage).info, data, length);                      \
+        }                                                                                          \
+    })
 #endif  // WII_PLATFORM
-
 
 #endif  // __STORAGE_H__

@@ -47,11 +47,10 @@ typedef struct _DVDFileInfo DVDFileInfo;
  * @param[in] result error code of last operation
  * @param[in] info pointer to user's file info strucutre
  */
-typedef void ( *DVDCallback )( int32_t result, DVDFileInfo* info );
-typedef void ( *DVDCBCallback )( int32_t result, DVDCommandBlock* block );
+typedef void (*DVDCallback)(int32_t result, DVDFileInfo* info);
+typedef void (*DVDCBCallback)(int32_t result, DVDCommandBlock* block);
 
-struct DVDDiskID
-{
+struct DVDDiskID {
     char game_name[4];
     char company[2];
     uint8_t disk_number;
@@ -59,7 +58,7 @@ struct DVDDiskID
     uint8_t is_streaming;
     uint8_t streaming_buffer_size;
     uint8_t padding[22];
-} __attribute__( ( __packed__ ) );
+} __attribute__((__packed__));
 
 /*!
  * \typedef struct _dvdcmdblk dvdcmdblk
@@ -79,12 +78,12 @@ struct _DVDCommandBlock {
     DVDDiskID* disk_id;
     DVDCBCallback callback;
     void* user_data;
-} __attribute__( ( __packed__ ) );
+} __attribute__((__packed__));
 
 struct _DVDFileInfo {
     DVDCommandBlock blk;
-	uint32_t addr;
-	uint32_t len;
+    uint32_t addr;
+    uint32_t len;
     DVDCallback cb;
 } __attribute__((packed));
 
@@ -92,17 +91,15 @@ bool DVDOpen(const char* param_1, DVDFileInfo* param_2);
 bool DVDClose(DVDFileInfo* fileInfo);
 int32_t DVDReadPrio(DVDFileInfo* fileInfo, void* buffer, int length, int offset, int prio);
 
-
 bool DVDGetCurrentDir(char* outBuf, uint32_t bufSize);
 bool DVDChangeDir(const char* path);
-
 
 typedef struct _DVDDirCursor DVDDirCursor;
 
 struct _DVDDirCursor {
     int32_t dir_idx;
     int32_t file_cursor;
-    uint32_t num_entries; // could be an offset, could be a length
+    uint32_t num_entries;  // could be an offset, could be a length
 } __attribute__((packed));
 
 typedef struct _DVDDirEntryInfo DVDDirEntryInfo;
@@ -116,7 +113,7 @@ struct _DVDDirEntryInfo {
 bool DVDOpenDir(const char* path, DVDDirCursor* dirinfo);
 /**
  * @brief Fetch the current entry and forward the cursor to the next entry.
- * 
+ *
  * @param[in|out] cursor The cursor to an opened directory.
  * @param[out] entryInfo The data on the current entry.
  * @returns True if the cursor successfully fetched an entry. False otherwise.
@@ -128,4 +125,4 @@ bool DVDCloseDir(DVDDirCursor*);
 }
 #endif
 
-#endif // __DVD_H__
+#endif  // __DVD_H__

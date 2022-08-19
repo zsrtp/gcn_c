@@ -142,7 +142,8 @@
 /*! \addtogroup primtype Primitive type
  * \brief Collection of primitive types that can be drawn by the GP.
  *
- * \note Which type you use depends on your needs; however, performance can increase by using triangle strips or fans instead of discrete triangles.
+ * \note Which type you use depends on your needs; however, performance can increase by using
+ * triangle strips or fans instead of discrete triangles.
  * @{
  */
 #define GX_POINTS 0xB8        /*!< Draws a series of points. Each vertex is a single point. */
@@ -586,7 +587,8 @@
 /*! @} */
 
 /*! \addtogroup tevclampmode TEV clamping mode
- * \note These modes are used for a function which is not implementable on production (i.e. retail) GameCube hardware.
+ * \note These modes are used for a function which is not implementable on production (i.e. retail)
+ * GameCube hardware.
  * @{
  */
 
@@ -634,9 +636,10 @@
 /*! \addtogroup texmapid texture map slot
  * \brief Texture map slots to hold textures in.
  *
- * \details The GameCube's Graphics Processor (GP) can apply up to eight textures to a single surface. Those textures
- * are assigned one of these slots. Various operations used on or with a particular texture will also take one of these
- * items, including operations regarding texture coordinate generation (although not necessarily on the same slot).
+ * \details The GameCube's Graphics Processor (GP) can apply up to eight textures to a single
+ * surface. Those textures are assigned one of these slots. Various operations used on or with a
+ * particular texture will also take one of these items, including operations regarding texture
+ * coordinate generation (although not necessarily on the same slot).
  *
  * \note This is different from \ref tevstage s, which are the actual quanta for work with textures.
  * @{
@@ -765,8 +768,9 @@
 /*! @} */
 
 /*! \addtogroup indtexformat Indirect texture format
- * \details Bits for the indirect offsets are extracted from the high end of each component byte. Bits for the bump alpha
- * are extraced off the low end of the byte. For <tt>GX_ITF_8</tt>, the byte is duplicated for the offset and the bump alpha.
+ * \details Bits for the indirect offsets are extracted from the high end of each component byte.
+ * Bits for the bump alpha are extraced off the low end of the byte. For <tt>GX_ITF_8</tt>, the byte
+ * is duplicated for the offset and the bump alpha.
  * @{
  */
 #define GX_ITF_8 0
@@ -779,7 +783,8 @@
 /*! \addtogroup indtexbias Indirect texture bias select
  * \brief Indicates which components of the indirect offset should receive a bias value.
  *
- * \details The bias is fixed at -128 for <tt>GX_ITF_8</tt> and +1 for the other formats. The bias happens prior to the indirect matrix multiply.
+ * \details The bias is fixed at -128 for <tt>GX_ITF_8</tt> and +1 for the other formats. The bias
+ * happens prior to the indirect matrix multiply.
  * @{
  */
 #define GX_ITB_NONE 0
@@ -809,9 +814,11 @@
 /*! @} */
 
 /*! \addtogroup indtexwrap Indirect texture wrap value
- * \brief Indicates whether the regular texture coordinate should be wrapped before being added to the offset.
+ * \brief Indicates whether the regular texture coordinate should be wrapped before being added to
+ * the offset.
  *
- * \details <tt>GX_ITW_OFF</tt> specifies no wrapping. <tt>GX_ITW_0</tt> will zero out the regular texture coordinate.
+ * \details <tt>GX_ITW_OFF</tt> specifies no wrapping. <tt>GX_ITW_0</tt> will zero out the regular
+ * texture coordinate.
  * @{
  */
 #define GX_ITW_OFF 0
@@ -825,7 +832,8 @@
 /*! @} */
 
 /*! \addtogroup indtexalphasel Indirect texture bump alpha select
- * \brief Indicates which offset component should provide the "bump" alpha output for the given TEV stage.
+ * \brief Indicates which offset component should provide the "bump" alpha output for the given TEV
+ * stage.
  *
  * \note Bump alpha is not available for TEV stage 0.
  * @{
@@ -838,9 +846,11 @@
 /*! @} */
 
 /*! \addtogroup indtexscale Indirect texture scale
- * \brief Specifies an additional scale value that may be applied to the texcoord used for an indirect initial lookup (not a TEV stage regular lookup).
+ * \brief Specifies an additional scale value that may be applied to the texcoord used for an
+ * indirect initial lookup (not a TEV stage regular lookup).
  *
- * \details The scale value is a fraction; thus <tt>GX_ITS_32</tt> means to divide the texture coordinate values by 32.
+ * \details The scale value is a fraction; thus <tt>GX_ITS_32</tt> means to divide the texture
+ * coordinate values by 32.
  * @{
  */
 #define GX_ITS_1 0
@@ -1006,18 +1016,23 @@
 /*! @} */
 
 /*! \addtogroup perf0metrics Performance counter 0 metric
- * \details Performance counter 0 is used to measure attributes dealing with geometry and primitives, such as triangle counts and clipping ratios.
+ * \details Performance counter 0 is used to measure attributes dealing with geometry and
+ * primitives, such as triangle counts and clipping ratios.
  *
- * \note <tt>GX_PERF0_XF_*</tt> measure how many GP cycles are spent in each stage of the XF.<br><br>
+ * \note <tt>GX_PERF0_XF_*</tt> measure how many GP cycles are spent in each stage of the
+ * XF.<br><br>
  *
- * \note The triangle metrics (<tt>GX_PERF0_TRIANGLES_*</tt>) allow counting triangles under specific conditions or with specific attributes.<br><br>
+ * \note The triangle metrics (<tt>GX_PERF0_TRIANGLES_*</tt>) allow counting triangles under
+ * specific conditions or with specific attributes.<br><br>
  *
- * \note <tt>GX_PERF0_TRIANGLES_*TEX</tt> count triangles based on the number of texture coordinates supplied; <tt>GX_PERF0_TRIANGLES_*CLR</tt> count
- * triangles based on the number of colors supplied.<br><br>
+ * \note <tt>GX_PERF0_TRIANGLES_*TEX</tt> count triangles based on the number of texture coordinates
+ * supplied; <tt>GX_PERF0_TRIANGLES_*CLR</tt> count triangles based on the number of colors
+ * supplied.<br><br>
  *
- * \note The quad metrics allow you to count the number of quads (2x2 pixels) the GP processes. The term <i>coverage</i> is used to indicate how many
- * pixels in the quad are actually part of the triangle being rasterized. For example, a coverage of 4 means all pixels in the quad intersect the
- * triangle. A coverage of 1 indicates that only 1 pixel in the quad intersected the triangle.
+ * \note The quad metrics allow you to count the number of quads (2x2 pixels) the GP processes. The
+ * term <i>coverage</i> is used to indicate how many pixels in the quad are actually part of the
+ * triangle being rasterized. For example, a coverage of 4 means all pixels in the quad intersect
+ * the triangle. A coverage of 1 indicates that only 1 pixel in the quad intersected the triangle.
  * @{
  */
 #define GX_PERF0_VERTICES 0      /*!< Number of vertices processed by the GP. */
@@ -1062,11 +1077,14 @@
 /*! @} */
 
 /*! \addtogroup perf1metrics Performance counter 1 metric
- * \details Performance counter 1 is used for measuring texturing and caching performance as well as FIFO performance.
+ * \details Performance counter 1 is used for measuring texturing and caching performance as well as
+ * FIFO performance.
  *
- * \note <tt>GX_PERF1_TC_*</tt> can be used to compute the texture cache (TC) miss rate. The <tt>TC_CHECK*</tt> parameters count how many texture cache lines are
- * accessed for each pixel. In the worst case, for a mipmap, up to 8 cache lines may be accessed to produce one textured pixel.
- * <tt>GX_PERF1_TC_MISS</tt> counts how many of those accesses missed the texture cache. To compute the miss rate, divide <tt>GX_PERF1_TC_MISS</tt> by the sum of all four
+ * \note <tt>GX_PERF1_TC_*</tt> can be used to compute the texture cache (TC) miss rate. The
+ * <tt>TC_CHECK*</tt> parameters count how many texture cache lines are accessed for each pixel. In
+ * the worst case, for a mipmap, up to 8 cache lines may be accessed to produce one textured pixel.
+ * <tt>GX_PERF1_TC_MISS</tt> counts how many of those accesses missed the texture cache. To compute
+ * the miss rate, divide <tt>GX_PERF1_TC_MISS</tt> by the sum of all four
  * <tt>GX_PERF1_TC_CHECK*</tt> values.<br><br>
  *
  * \note <tt>GX_PERF1_VC_*</tt> count different vertex cache stall conditions.
@@ -1101,8 +1119,9 @@
 /*! \addtogroup tlutname TLUT name
  * \brief Name of Texture Look-Up Table (TLUT) in texture memory.
  *
- * \details Each table <tt>GX_TLUT0</tt>-<tt>GX_TLUT15</tt> contains 256 entries,16b per entry. <tt>GX_BIGTLUT0</tt>-<tt>3</tt>
- * contains 1024 entries, 16b per entry. Used for configuring texture memory in GXInit().
+ * \details Each table <tt>GX_TLUT0</tt>-<tt>GX_TLUT15</tt> contains 256 entries,16b per entry.
+ * <tt>GX_BIGTLUT0</tt>-<tt>3</tt> contains 1024 entries, 16b per entry. Used for configuring
+ * texture memory in GXInit().
  * @{
  */
 #define GX_TLUT0 0
@@ -1216,32 +1235,35 @@ typedef float (*Mtx44P)[4];
 typedef void (*GXBreakPtCallback)(void);
 typedef void (*GXDrawDoneCallback)(void);
 typedef void (*GXDrawSyncCallback)(uint16_t token);
-typedef GXTexRegion *(*GXTexRegionCallback)(GXTexObj *obj, uint8_t mapid);
-typedef GXTlutRegion *(*GXTlutRegionCallback)(uint32_t tlut_name);
+typedef GXTexRegion* (*GXTexRegionCallback)(GXTexObj* obj, uint8_t mapid);
+typedef GXTlutRegion* (*GXTlutRegionCallback)(uint32_t tlut_name);
 
 extern "C" {
 // Function Pointers
-GXFifoObj *GXInit(void *base, uint32_t size);
-void GXInitFifoBase(GXFifoObj *fifo, void *base, uint32_t size);
-void GXInitFifoPtrs(GXFifoObj *fifo, void *rd_ptr, void *wt_ptr);
-void GXInitFifoLimits(GXFifoObj *fifo, uint32_t hiwatermark, uint32_t lowatermark);
-void GXSetCPUFifo(GXFifoObj *fifo);
-void GXSetGPFifo(GXFifoObj *fifo);
-void GXGetGPStatus(uint8_t *overhi, uint8_t *underlow, uint8_t *readIdle, uint8_t *cmdIdle, uint8_t *brkpt);
-void *GXGetFifoBase(GXFifoObj *fifo);
-uint32_t GXGetFifoSize(GXFifoObj *fifo);
+GXFifoObj* GXInit(void* base, uint32_t size);
+void GXInitFifoBase(GXFifoObj* fifo, void* base, uint32_t size);
+void GXInitFifoPtrs(GXFifoObj* fifo, void* rd_ptr, void* wt_ptr);
+void GXInitFifoLimits(GXFifoObj* fifo, uint32_t hiwatermark, uint32_t lowatermark);
+void GXSetCPUFifo(GXFifoObj* fifo);
+void GXSetGPFifo(GXFifoObj* fifo);
+void GXGetGPStatus(uint8_t* overhi, uint8_t* underlow, uint8_t* readIdle, uint8_t* cmdIdle,
+                   uint8_t* brkpt);
+void* GXGetFifoBase(GXFifoObj* fifo);
+uint32_t GXGetFifoSize(GXFifoObj* fifo);
 GXBreakPtCallback GXSetBreakPtCallback(GXBreakPtCallback cb);
 uint32_t GXSetCurrentGXThread(void);
 uint32_t GXGetCurrentGXThread(void);
-void GXGetCPUFifo(GXFifoObj *fifo);
-void GXGetGPFifo(GXFifoObj *fifo);
+void GXGetCPUFifo(GXFifoObj* fifo);
+void GXGetGPFifo(GXFifoObj* fifo);
 void GXSetVtxDesc(uint8_t attr, uint8_t type);
-void GXSetVtxDescv(GXVtxDesc *attr_list);
+void GXSetVtxDescv(GXVtxDesc* attr_list);
 void GXClearVtxDesc(void);
-void GXSetVtxAttrFmt(uint8_t vtxfmt, uint32_t vtxattr, uint32_t comptype, uint32_t compsize, uint32_t frac);
-void GXSetVtxAttrFmtv(uint8_t vtxfmt, GXVtxAttrFmt *attr_list);
-void GXSetArray(uint32_t attr, void *ptr, uint8_t stride);
-void GXSetTexCoordGen2(uint16_t texcoord, uint32_t tgen_typ, uint32_t tgen_src, uint32_t mtxsrc, uint32_t normalize, uint32_t postmtx);
+void GXSetVtxAttrFmt(uint8_t vtxfmt, uint32_t vtxattr, uint32_t comptype, uint32_t compsize,
+                     uint32_t frac);
+void GXSetVtxAttrFmtv(uint8_t vtxfmt, GXVtxAttrFmt* attr_list);
+void GXSetArray(uint32_t attr, void* ptr, uint8_t stride);
+void GXSetTexCoordGen2(uint16_t texcoord, uint32_t tgen_typ, uint32_t tgen_src, uint32_t mtxsrc,
+                       uint32_t normalize, uint32_t postmtx);
 void GXSetNumTexGens(uint32_t nr);
 void GXSetMisc(uint32_t token, uint32_t value);
 void GXFlush(void);
@@ -1257,7 +1279,7 @@ void GXPokeColorUpdate(uint8_t update_enable);
 void GXPokeDstAlpha(uint8_t enable, uint8_t a);
 void GXPokeDither(uint8_t dither);
 void GXPokeZMode(uint8_t comp_enable, uint8_t func, uint8_t update_enable);
-void GXPeekZ(uint16_t x, uint16_t y, uint32_t *z);
+void GXPeekZ(uint16_t x, uint16_t y, uint32_t* z);
 GXDrawSyncCallback GXSetDrawSyncCallback(GXDrawSyncCallback cb);
 GXDrawDoneCallback GXSetDrawDoneCallback(GXDrawDoneCallback cb);
 void GXBegin(uint8_t primitve, uint8_t vtxfmt, uint16_t vtxcnt);
@@ -1277,39 +1299,47 @@ uint32_t GXSetDispCopyYScale(float yscale);
 void GXSetCopyClear(GXColor color, uint32_t zvalue);
 void GXSetCopyFilter(uint8_t aa, uint8_t sample_pattern[12][2], uint8_t vf, uint8_t vfilter[7]);
 void GXSetDispCopyGamma(uint8_t gamma);
-void GXCopyDisp(void *dest, uint8_t clear);
-void GXCopyTex(void *dest, uint8_t clear);
+void GXCopyDisp(void* dest, uint8_t clear);
+void GXCopyTex(void* dest, uint8_t clear);
 void GXClearBoundingBox(void);
-void GXInitLightAttn(GXLightObj *lit_obj, float a0, float a1, float a2, float k0, float k1, float k2);
-void GXInitLightSpot(GXLightObj *lit_obj, float cut_off, uint8_t spotfn);
-void GXInitLightDistAttn(GXLightObj *lit_obj, float ref_dist, float ref_brite, uint8_t dist_fn);
-void GXInitLightPos(GXLightObj *lit_obj, float x, float y, float z);
-void GXInitLightDir(GXLightObj *lit_obj, float nx, float ny, float nz);
-void GXInitLightColor(GXLightObj *lit_obj, GXColor col);
+void GXInitLightAttn(GXLightObj* lit_obj, float a0, float a1, float a2, float k0, float k1,
+                     float k2);
+void GXInitLightSpot(GXLightObj* lit_obj, float cut_off, uint8_t spotfn);
+void GXInitLightDistAttn(GXLightObj* lit_obj, float ref_dist, float ref_brite, uint8_t dist_fn);
+void GXInitLightPos(GXLightObj* lit_obj, float x, float y, float z);
+void GXInitLightDir(GXLightObj* lit_obj, float nx, float ny, float nz);
+void GXInitLightColor(GXLightObj* lit_obj, GXColor col);
 void GXSetChanAmbColor(int32_t channel, GXColor color);
 void GXSetChanMatColor(int32_t channel, GXColor color);
 void GXSetNumChans(uint8_t num);
-void GXSetChanCtrl(int32_t channel, uint8_t enable, uint8_t ambsrc, uint8_t matsrc, uint8_t litmask, uint8_t diff_fn, uint8_t attn_fn);
+void GXSetChanCtrl(int32_t channel, uint8_t enable, uint8_t ambsrc, uint8_t matsrc, uint8_t litmask,
+                   uint8_t diff_fn, uint8_t attn_fn);
 uint32_t GXGetTexBufferSize(uint16_t wd, uint16_t ht, uint32_t fmt, uint8_t mipmap, uint8_t maxlod);
-void GXInitTexObj(GXTexObj *obj, void *img_ptr, uint16_t wd, uint16_t ht, uint8_t fmt, uint8_t wrap_s, uint8_t wrap_t, uint8_t mipmap);
-void GXInitTexObjCI(GXTexObj *obj, void *img_ptr, uint16_t wd, uint16_t ht, uint8_t fmt, uint8_t wrap_s, uint8_t wrap_t, uint8_t mipmap, uint32_t tlut_name);
-void GXInitTexObjLOD(GXTexObj *obj, uint8_t minfilt, uint8_t magfilt, float minlod, float maxlod, float lodbias, uint8_t biasclamp, uint8_t edgelod, uint8_t maxaniso);
-uint16_t GXGetTexObjWidth(GXTexObj *obj);
-uint16_t GXGetTexObjHeight(GXTexObj *obj);
-uint32_t GXGetTexObjFmt(GXTexObj *obj);
-uint8_t GXGetTexObjWrapS(GXTexObj *obj);
-uint8_t GXGetTexObjWrapT(GXTexObj *obj);
-uint32_t GXGetTexObjMipMap(GXTexObj *obj);
-void GXLoadTexObj(GXTexObj *obj, uint8_t mapid);
-void GXInitTlutObj(GXTlutObj *obj, void *lut, uint8_t fmt, uint16_t entries);
-void GXLoadTlut(GXTlutObj *obj, uint32_t tlut_name);
-void GXInitTexCacheRegion(GXTexRegion *region, uint8_t iint32_tbmipmap, uint32_t tmem_even, uint8_t size_even, uint32_t tmem_odd, uint8_t size_odd);
-void GXInitTlutRegion(GXTlutRegion *region, uint32_t tmem_addr, uint8_t tlut_sz);
+void GXInitTexObj(GXTexObj* obj, void* img_ptr, uint16_t wd, uint16_t ht, uint8_t fmt,
+                  uint8_t wrap_s, uint8_t wrap_t, uint8_t mipmap);
+void GXInitTexObjCI(GXTexObj* obj, void* img_ptr, uint16_t wd, uint16_t ht, uint8_t fmt,
+                    uint8_t wrap_s, uint8_t wrap_t, uint8_t mipmap, uint32_t tlut_name);
+void GXInitTexObjLOD(GXTexObj* obj, uint8_t minfilt, uint8_t magfilt, float minlod, float maxlod,
+                     float lodbias, uint8_t biasclamp, uint8_t edgelod, uint8_t maxaniso);
+uint16_t GXGetTexObjWidth(GXTexObj* obj);
+uint16_t GXGetTexObjHeight(GXTexObj* obj);
+uint32_t GXGetTexObjFmt(GXTexObj* obj);
+uint8_t GXGetTexObjWrapS(GXTexObj* obj);
+uint8_t GXGetTexObjWrapT(GXTexObj* obj);
+uint32_t GXGetTexObjMipMap(GXTexObj* obj);
+void GXLoadTexObj(GXTexObj* obj, uint8_t mapid);
+void GXInitTlutObj(GXTlutObj* obj, void* lut, uint8_t fmt, uint16_t entries);
+void GXLoadTlut(GXTlutObj* obj, uint32_t tlut_name);
+void GXInitTexCacheRegion(GXTexRegion* region, uint8_t iint32_tbmipmap, uint32_t tmem_even,
+                          uint8_t size_even, uint32_t tmem_odd, uint8_t size_odd);
+void GXInitTlutRegion(GXTlutRegion* region, uint32_t tmem_addr, uint8_t tlut_sz);
 void GXInvalidateTexAll(void);
 GXTexRegionCallback GXSetTexRegionCallback(GXTexRegionCallback cb);
 GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback cb);
 void GXSetTexCoordScaleManually(uint8_t texcoord, uint8_t enable, uint16_t ss, uint16_t ts);
-void GXSetTevIndirect(uint8_t tevstage, uint8_t indtexid, uint8_t format, uint8_t bias, uint8_t mtxid, uint8_t wrap_s, uint8_t wrap_t, uint8_t addprev, uint8_t utclod, uint8_t a);
+void GXSetTevIndirect(uint8_t tevstage, uint8_t indtexid, uint8_t format, uint8_t bias,
+                      uint8_t mtxid, uint8_t wrap_s, uint8_t wrap_t, uint8_t addprev,
+                      uint8_t utclod, uint8_t a);
 void GXSetIndTexCoordScale(uint8_t indtexid, uint8_t scale_s, uint8_t scale_t);
 void GXSetIndTexOrder(uint8_t indtexstage, uint8_t texcoord, uint8_t texmap);
 void GXSetNumIndStages(uint8_t nstages);
@@ -1317,8 +1347,10 @@ void GXSetTevDirect(uint8_t tevstage);
 void GXSetTevOp(uint8_t tevstage, uint8_t mode);
 void GXSetTevColorIn(uint8_t tevstage, uint8_t a, uint8_t b, uint8_t c, uint8_t d);
 void GXSetTevAlphaIn(uint8_t tevstage, uint8_t a, uint8_t b, uint8_t c, uint8_t d);
-void GXSetTevColorOp(uint8_t tevstage, uint8_t tevop, uint8_t tevbias, uint8_t tevscale, uint8_t clamp, uint8_t tevregid);
-void GXSetTevAlphaOp(uint8_t tevstage, uint8_t tevop, uint8_t tevbias, uint8_t tevscale, uint8_t clamp, uint8_t tevregid);
+void GXSetTevColorOp(uint8_t tevstage, uint8_t tevop, uint8_t tevbias, uint8_t tevscale,
+                     uint8_t clamp, uint8_t tevregid);
+void GXSetTevAlphaOp(uint8_t tevstage, uint8_t tevop, uint8_t tevbias, uint8_t tevscale,
+                     uint8_t clamp, uint8_t tevregid);
 void GXSetTevColor(uint8_t tev_regid, GXColor color);
 void GXSetTevColorS10(uint8_t tev_regid, GXColorS10 color);
 void GXSetTevKColor(uint8_t sel, GXColor col);
@@ -1331,7 +1363,7 @@ void GXSetZTexture(uint8_t op, uint8_t fmt, uint32_t bias);
 void GXSetTevOrder(uint8_t tevstage, uint8_t texcoord, uint32_t texmap, uint8_t color);
 void GXSetNumTevStages(uint8_t num);
 void GXSetFog(uint8_t type, float startz, float endz, float nearz, float farz, GXColor col);
-void GXSetFogRangeAdj(uint8_t enable, uint16_t center, GXFogAdjTbl *table);
+void GXSetFogRangeAdj(uint8_t enable, uint16_t center, GXFogAdjTbl* table);
 void GXSetBlendMode(uint8_t type, uint8_t src_fact, uint8_t dst_fact, uint8_t op);
 void GXSetColorUpdate(uint8_t enable);
 void GXSetAlphaUpdate(uint8_t enable);
@@ -1352,10 +1384,9 @@ void GXSetScissorBoxOffset(int32_t xoffset, int32_t yoffset);
 void GXSetClipMode(uint8_t mode);
 void GXSetGPMetric(uint32_t perf0, uint32_t perf1);
 void GXClearGPMetric(void);
-void GXReadXfRasMetric(uint32_t *xfwaitin, uint32_t *xfwaitout, uint32_t *rasbusy, uint32_t *clks);
+void GXReadXfRasMetric(uint32_t* xfwaitin, uint32_t* xfwaitout, uint32_t* rasbusy, uint32_t* clks);
 
-static inline void GXEnd(void) {
-}
+static inline void GXEnd(void) {}
 
 static inline void GXPosition3f32(float x, float y, float z) {
     wgPipe.F32 = x;
@@ -1538,7 +1569,8 @@ static inline void GXMatrixIndex1x8(uint8_t index) {
     wgPipe.U8 = index;
 }
 
-void inline GXSetTexCoordGen(uint16_t texcoord, uint32_t tgen_typ, uint32_t tgen_src, uint32_t mtxsrc) {
+void inline GXSetTexCoordGen(uint16_t texcoord, uint32_t tgen_typ, uint32_t tgen_src,
+                             uint32_t mtxsrc) {
     GXSetTexCoordGen2(texcoord, tgen_typ, tgen_src, mtxsrc, GX_FALSE, GX_DTTIDENTITY);
 }
 }
